@@ -1,0 +1,49 @@
+html, body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a, a:link, a:visited {
+    color: #005599;
+    text-decoration: none;
+}
+
+a:hover, a:active {
+    color: #0033cc;
+    text-decoration: none;
+}
+
+ul.ferritecms_nav {
+    float: left;
+    height: 40px;
+    margin: 0 0 20px 0;
+    padding: 0 10px;
+    background: #bbb;
+    border-radius: 5px;
+}
+
+ul.ferritecms_nav li {
+    height: 40px;
+    line-height: 40px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+ul.ferritecms_nav li a, ul.ferritecms_nav li a:link, ul.ferritecms_nav li a:visited {
+    display: block;
+    height: 40px;
+    padding: 0 13px;
+}
+
+ul.ferritecms_nav li a:hover, ul.ferritecms_nav li a:active {
+    background: #888;
+}
+
+h1 {
+    clear: both;
+}
+
+#content {
+    clear: both;
+}

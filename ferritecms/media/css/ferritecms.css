@@ -1,0 +1,15 @@
+#ferritecms_loginform {
+    display: none;
+    width: 200px;
+    height: 100px;
+    padding: 20px;
+    position: fixed;
+    background: #f8f8f8;
+    -webkit-box-shadow: 0 0 12px #aaa;
+    border-radius: 5px;
+}
+
+#ferritecms_contentfield {
+    width: 40%;
+    height: 15em;
+}
