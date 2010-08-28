@@ -92,7 +92,22 @@ class Pages
         return $page;
     }
     
-    public static function createPage($title, $content, $slug) {
+    /**
+     * Get an ordered array listing all pages with their titles and slugs.
+     */
+    public static function pageList() {
+        $query = 'SELECT id, title, slug FROM pages ORDER BY position ASC';
+        return self::$db->query($query);
+    }
+    
+    public static function createPage($title, $content, $slug, $position = null) {
+        // Get the position if it is not specified.
+        if ($position == null) {
+            $query = 'SELECT MAX(position) FROM pages';
+            $max = self::$db->query($query);
+            $position = $max + 1;
+        }
+        
         // Ensure a lowercase slug
         $slug = strtolower($slug);
         
@@ -107,14 +122,15 @@ class Pages
         $stmt->execute();
     }
     
-    public static function updatePage($id, $title, $content, $slug) {
-        $query = 'UPDATE pages SET title=:title, content=:content, slug=:slug
+    public static function updatePage($id, $title, $content, $slug, $position) {
+        $query = 'UPDATE pages SET title=:title, content=:content, slug=:slug, position=:position
                     WHERE id=:id';
         
         $stmt = self::$db->prepare($query);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':content', $content);
         $stmt->bindParam(':slug', $slug);
+        $stmt->bindParam(':position', $position);
         $stmt->bindParam(':id', $id);
         
         $title = stripslashes($title);

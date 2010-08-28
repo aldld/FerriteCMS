@@ -19,15 +19,15 @@ $page = Pages::getPage($id);
 
 switch ($update) {
     case 'content':
-        Pages::updatePage($page->id, $page->title, $content, $page->slug);
+        Pages::updatePage($page->id, $page->title, $content, $page->slug, $page->position);
         break;
     
     case 'title':
-        Pages::updatePage($page->id, $content, $page->content, $page->slug);
+        Pages::updatePage($page->id, $content, $page->content, $page->slug, $page->position);
         break;
     
     case 'slug':
-        Pages::updatePage($page->id, $page->title, $page->content, $content);
+        Pages::updatePage($page->id, $page->title, $page->content, $content, $page->position);
         break;
     
     default:

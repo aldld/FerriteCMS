@@ -24,6 +24,8 @@ if (isset($_COOKIE['fcms_admin'])) {
     }
 }
 
+Pages::pageList();
+
 // End of PHP section, begin HTML/Javascript
 ?>
 

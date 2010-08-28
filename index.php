@@ -8,12 +8,9 @@
     <title><?php echo $page->headTitle(); ?></title>
 </head>
 <body>
-    <ul class="ferritecms_nav">
-        <li><a href="home">Home</a></li>
-        <li><a href="page1">Page One</a></li>
-        <li><a href="page2">Page Two</a></li>
-        <li><a href="page3">Page Three</a></li>
-    </ul>
+    <div id="nav">
+        <?php echo $tags->navList(); ?>
+    </div>
     
     <h1><?php echo $page->title(); ?></h1>
     

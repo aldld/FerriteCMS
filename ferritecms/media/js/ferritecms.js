@@ -40,6 +40,10 @@ function editorInit() {
                         }, function(data) {
                             // TODO: find a better way of displaying success/failure
                             alert(data);
+                            
+                            // Update navigation bar
+                            $('title, .ferritecms_nav #ferritecms_nav-' + pageID + ' a')
+                                .html($('#ferritecms_titlefield').val());
                         });
                         
                         return false;
@@ -82,8 +86,8 @@ function editorLogin(event) {
     if (!$.cookie('fcms_admin')) {
         $loginform = $('#ferritecms_loginform');
         $loginform.css({
-            'top': ($(document).height()/2) - ($loginform.outerHeight()/2),
-            'left': ($(document).width()/2) - ($loginform.outerWidth()/2)
+            'top': ($(window).height()/2) - ($loginform.outerHeight()/2),
+            'left': ($(window).width()/2) - ($loginform.outerWidth()/2)
         });
         $loginform.fadeIn(100);
         $('#ferritecms_password').focus();
