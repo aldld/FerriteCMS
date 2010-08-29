@@ -35,6 +35,7 @@ Pages::pageList();
 <script type="text/javascript">
 var ferriteCMS_id = '<?php echo $adminID; ?>';
 var baseURL = '<?php echo BASE_URL; ?>';
+var basePath = '<?php echo BASE_PATH; ?>';
 var pageID = <?php echo $page->id(); ?>;
 </script>
 <script src="<?php echo BASE_URL; ?>ferritecms/media/js/jquery.js"></script>

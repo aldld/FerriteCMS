@@ -28,6 +28,7 @@ ul.ferritecms_nav li {
     margin: 0;
     padding: 0;
     float: left;
+    position: relative;
 }
 
 ul.ferritecms_nav li a, ul.ferritecms_nav li a:link, ul.ferritecms_nav li a:visited {
@@ -36,8 +37,36 @@ ul.ferritecms_nav li a, ul.ferritecms_nav li a:link, ul.ferritecms_nav li a:visi
     padding: 0 13px;
 }
 
-ul.ferritecms_nav li a:hover, ul.ferritecms_nav li a:active {
+ul.ferritecms_nav li a:hover, ul.ferritecms_nav li a:active, ul.ferritecms_nav li:hover {
     background: #888;
+}
+
+ul.ferritecms_subnav {
+    z-index: 9999;
+    height: 0;
+    overflow: hidden;
+    border-radius: 0 0 5px 5px;
+    position: fixed;
+}
+
+ul.ferritecms_nav li:hover ul.ferritecms_subnav {
+    height: auto;
+    padding: 0 0 5px 0;
+}
+
+ul.ferritecms_nav li:hover ul.ferritecms_subnav li {
+    width: 100%;
+}
+
+ul.ferritecms_subnav li {
+    clear: left;
+    height: 25px;
+    line-height: 25px;
+}
+
+ul.ferritecms_subnav li a, ul.ferritecms_subnav li a:link, ul.ferritecms_subnav li a:visited {
+    height: 25px;
+    display: block;
 }
 
 h1 {

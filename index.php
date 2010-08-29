@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'ferritecms/ferritecms.inc.php'; ?>
-    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>style.css" type="text/css" media="screen" />
     
     <title><?php echo $page->headTitle(); ?></title>
 </head>

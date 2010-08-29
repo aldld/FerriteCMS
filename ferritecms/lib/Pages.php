@@ -95,9 +95,15 @@ class Pages
     /**
      * Get an ordered array listing all pages with their titles and slugs.
      */
-    public static function pageList() {
-        $query = 'SELECT id, title, slug FROM pages ORDER BY position ASC';
-        return self::$db->query($query);
+    public static function pageList($parent = 0) {
+        $query = 'SELECT id, title, slug FROM pages
+                    WHERE parent=:parent ORDER BY position ASC';
+        
+        $stmt = self::$db->prepare($query);
+        $stmt->bindParam(':parent', $parent);
+        
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
     
     public static function createPage($title, $content, $slug, $position = null) {
@@ -122,9 +128,9 @@ class Pages
         $stmt->execute();
     }
     
-    public static function updatePage($id, $title, $content, $slug, $position) {
-        $query = 'UPDATE pages SET title=:title, content=:content, slug=:slug, position=:position
-                    WHERE id=:id';
+    public static function updatePage($id, $title, $content, $slug, $position, $parent) {
+        $query = 'UPDATE pages SET title=:title, content=:content, slug=:slug,
+                    position=:position, parent=:parent WHERE id=:id';
         
         $stmt = self::$db->prepare($query);
         $stmt->bindParam(':title', $title);
@@ -132,6 +138,7 @@ class Pages
         $stmt->bindParam(':slug', $slug);
         $stmt->bindParam(':position', $position);
         $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':parent', $parent);
         
         $title = stripslashes($title);
         $content = stripslashes($content);

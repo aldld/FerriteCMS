@@ -75,7 +75,7 @@ function editorLogin(event) {
         
         // Log the user out and delete the cookie
         if ($.cookie('fcms_admin')) {
-            $.cookie('fcms_admin', null);
+            $.cookie('fcms_admin', null, { 'path': basePath });
         }
         
         $('.ferritecms_editlink').html(editLinkText)

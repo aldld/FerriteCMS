@@ -10,6 +10,7 @@ class Page
     var $content;
     var $slug;
     var $position;
+    var $parent;
     
     /**
      * Instantiate the blog post object from an object returned
@@ -23,6 +24,7 @@ class Page
             $this->content = $row->content;
             $this->slug = $row->slug;
             $this->position = $row->position;
+            $this->parent = $row->parent;
         }
     }
 }
