@@ -106,26 +106,72 @@ class Pages
         return $stmt->fetchAll();
     }
     
-    public static function createPage($title, $content, $slug, $position = null) {
+    /**
+     * Return the path to any given page, as a string.
+     */
+    public static function getPath($id) {
+        $query = 'SELECT slug, parent FROM pages WHERE id=:id';
+        
+        $stmt = self::$db->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        
+        $row = $stmt->fetch();
+        
+        $path = $row['slug'] . '/';
+        if ($row['parent'] != 0) {
+            /*
+             * TODO: MAKE THIS BETTER!!! THIS IS PROBABLY A TERRIBLE
+             * WAY OF DOING THIS, BECAUSE I DO NOT HAVE INTERNET ACCESS
+             * RIGHT NOW, AND THEREFORE CANNOT LOOKUP DOCUMENATION. I AM
+             * VERY ANGRY RIGHT NOW AT HOW INCONVENIENT MY LIFE IS.
+             */
+            $temp = $path;
+            $path = self::getPath($row['parent']);
+            $path .= $temp;
+        }
+        
+        return $path;
+    }
+    
+    public static function createPage($title, $content, $slug, $parent = 0, $position = null) {
+        // Check to see if the slug is already in use
+        if (self::getID($slug)) {
+            return false;
+        }
+        
         // Get the position if it is not specified.
-        if ($position == null) {
-            $query = 'SELECT MAX(position) FROM pages';
-            $max = self::$db->query($query);
-            $position = $max + 1;
+        if (is_null($position)) {
+            $query = 'SELECT MAX(position) FROM pages WHERE parent=:parent';
+            
+            $stmt = self::$db->prepare($query);
+            $stmt->bindParam(':parent', $parent);
+            $stmt->execute();
+            
+            $row = $stmt->fetch();
+            $position = $row[0] + 1;
         }
         
         // Ensure a lowercase slug
         $slug = strtolower($slug);
         
-        $query = 'INSERT INTO pages (title, content, slug)
-                    VALUES (:title, :content, :slug)';
+        $query = 'INSERT INTO pages (title, content, slug, position, parent)
+                    VALUES (:title, :content, :slug, :position, :parent)';
         
         $stmt = self::$db->prepare($query);
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':content', $content);
         $stmt->bindParam(':slug', $slug);
+        $stmt->bindParam(':position', $position);
+        $stmt->bindParam(':parent', $parent);
         
-        $stmt->execute();
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            return false;
+        }
+        
+        return self::$db->lastInsertId();
     }
     
     public static function updatePage($id, $title, $content, $slug, $position, $parent) {

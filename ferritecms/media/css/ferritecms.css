@@ -15,5 +15,16 @@
 }
 
 .ferritecms_newpage {
+    font-weight: bold;
     display: none;
+}
+
+#ferritecms_pageinfo {
+}
+
+.ferritecms_dialog {
+    position: fixed;
+    background: #f8f8f8;
+    -webkit-box-shadow: 0 0 12px #aaa;
+    padding: 20px;
 }

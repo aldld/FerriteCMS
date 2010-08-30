@@ -16,9 +16,10 @@ class tags_Tags
         
         $output = '<' . $type . ' class="ferritecms_nav' . ($parent ? ' ferritecms_subnav' : '') . '">';
         foreach ($list as $li) {
+            $path = Pages::getPath($li['id']);
+            
             $output .= '<li id="ferritecms_nav-' . $li['id'] . '">';
-            $output .= '<a href="' . BASE_URL . ($parentSlug ? $parentSlug . '/' : '') .
-                        $li['slug'] . '">';
+            $output .= '<a href="' . BASE_URL . $path . '">';
             $output .= $li['title'] . '</a>';
             
             // The next levels

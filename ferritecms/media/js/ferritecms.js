@@ -10,7 +10,7 @@ function editorInit() {
         if (data) {
             $('.ferritecms_editlink').html('Leave editor mode')
                 .addClass('ferritecms_leaveeditor');
-            
+                
             // Convert content areas to textareas
             $('.ferritecms_content').load(
                 baseURL + '/ferritecms/ajax/editPage.php?type=content&id=' + pageID, function() {
@@ -51,7 +51,66 @@ function editorInit() {
                 })
                 .addClass('ferritecms_editing');
             
-            // TODO: navigation stuff
+            // New page creation
+            var newPageOpen = false;
+            $('.ferritecms_newpage').show();
+            $('.ferritecms_newpage a').click(function() {
+                // Get the parent ID
+                var parentID = $(this).parent().attr('id').split('-')[1];
+                
+                // Display a dialog to ask for a page title/slug
+                if (!newPageOpen) {
+                    newPageOpen = true;
+                    $.get(baseURL + 'ferritecms/ajax/pageInfo.php', {
+                        'type': 'new',
+                        'parent': parentID
+                    }, function(data) {
+                        $('body').append(data);
+                        $('.ferritecms_dialog').not(':first').remove();
+                        $newform = $('#ferritecms_newform');
+                        
+                        $newform.css({
+                            'top': ($(window).height()/2) - ($newform.outerHeight()/2),
+                            'left': ($(window).width()/2) - ($newform.outerWidth()/2)
+                        });
+                        
+                        // When "cancel" is clicked
+                        $('#ferritecms_pinfocancel').click(function() {
+                            $newform.remove();
+                            newPageOpen = false;
+                            return false;
+                        });
+                        
+                        // Post the data to the server on form submit
+                        $newform.find('form').unbind('submit');
+                        $newform.find('form').submit(function() {
+                            title = $('#ferritecms_pinfotitle').val();
+                            slug = $('#ferritcms_pinfoslug').val();
+                            parent = $('#ferritecms_pinfoparent').val();
+                            
+                            $.post(baseURL + 'ferritecms/ajax/newPage.php', {
+                                'title': title,
+                                'slug': slug,
+                                'parent': parent
+                            }, function(data) {
+                                if (data == 1) {
+                                    alert('Page link already in use. Please choose another.');
+                                } else {
+                                    $newform.remove();
+                                    newPageOpen = false;
+                                    $('#ferritecms_newparent-' + parent).before(data);
+                                }
+                            });
+                        
+                            return false;
+                        });
+                    });
+                }
+                
+                return false;
+            });
+            
+            
         }
     });
     
@@ -72,6 +131,12 @@ function editorLogin(event) {
         $('.ferritecms_title').load(
             baseURL + 'ferritecms/ajax/getPage.php?type=title&id=' + pageID)
             .removeClass('ferritecms_editing');
+        
+        // Hide new page links
+        $('.ferritecms_newpage').hide();
+        
+        // Get rid of all dialogs
+        $('.ferritecms_dialog').remove();
         
         // Log the user out and delete the cookie
         if ($.cookie('fcms_admin')) {
