@@ -120,15 +120,7 @@ class Pages
         
         $path = $row['slug'] . '/';
         if ($row['parent'] != 0) {
-            /*
-             * TODO: MAKE THIS BETTER!!! THIS IS PROBABLY A TERRIBLE
-             * WAY OF DOING THIS, BECAUSE I DO NOT HAVE INTERNET ACCESS
-             * RIGHT NOW, AND THEREFORE CANNOT LOOKUP DOCUMENATION. I AM
-             * VERY ANGRY RIGHT NOW AT HOW INCONVENIENT MY LIFE IS.
-             */
-            $temp = $path;
-            $path = self::getPath($row['parent']);
-            $path .= $temp;
+            $path = self::getPath($row['parent']) . $path;
         }
         
         return $path;
