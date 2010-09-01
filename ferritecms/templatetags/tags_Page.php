@@ -35,7 +35,7 @@ class tags_Page
     }
 }
 
-$requestURI = str_replace(BASE_PATH, '', $_SERVER['REQUEST_URI']);
+$requestURI = substr_replace($_SERVER['REQUEST_URI'], '', 0, strlen(BASE_PATH));
 $splitURI = explode('/', $requestURI);
 
 // Remove empty segments from $requestURI

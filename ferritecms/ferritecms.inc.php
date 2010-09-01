@@ -40,4 +40,10 @@ var pageID = <?php echo $page->id(); ?>;
 </script>
 <script src="<?php echo BASE_URL; ?>ferritecms/media/js/jquery.js"></script>
 <script src="<?php echo BASE_URL; ?>ferritecms/media/js/cookie.js"></script>
+
+<script src="<?php echo BASE_URL; ?>ferritecms/media/js/editorMode.js"></script>
+<script src="<?php echo BASE_URL; ?>ferritecms/media/js/loginForm.js"></script>
+<script src="<?php echo BASE_URL; ?>ferritecms/media/js/editing.js"></script>
+<script src="<?php echo BASE_URL; ?>ferritecms/media/js/page.js"></script>
+
 <script src="<?php echo BASE_URL; ?>ferritecms/media/js/ferritecms.js"></script>

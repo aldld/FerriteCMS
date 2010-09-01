@@ -94,6 +94,14 @@ class Pages
     
     /**
      * Get an ordered array listing all pages with their titles and slugs.
+     *
+     * NOTE: This method was originally designed for a single-level page
+     * hierarchy, and is thus inefficient when working with multi-level
+     * page hierarchies, as it needs to hit the database multiple times
+     * to generate a navigation list.
+     *
+     * TODO: Return the entire page hierarchy as a single array to generate
+     * a navigation list.
      */
     public static function pageList($parent = 0) {
         $query = 'SELECT id, title, slug FROM pages
@@ -108,6 +116,8 @@ class Pages
     
     /**
      * Return the path to any given page, as a string.
+     *
+     * @return string The path
      */
     public static function getPath($id) {
         $query = 'SELECT slug, parent FROM pages WHERE id=:id';
@@ -126,9 +136,41 @@ class Pages
         return $path;
     }
     
+    /**
+     * Check if a slug is in use under a specific parent page. Replaces
+     * getID() for checking if a slug is already in use.
+     *
+     * @param string $slug The slug to check
+     * @param int $parent The parent page to check below
+     * @return boolean Whether the slug is in use or not.
+     */
+    public static function slugExists($slug, $parent = null) {
+        $slug = strtolower($slug);
+        
+        if (is_null($parent)) {
+            $query = 'SELECT 1 FROM pages WHERE slug=:slug';
+            $stmt = self::$db->prepare($query);
+        } else {
+            $query = 'SELECT 1 FROM pages WHERE slug=:slug AND parent=:parent';
+            $stmt = self::$db->prepare($query);
+            
+            $stmt->bindParam(':parent', $parent);
+        }
+        
+        $stmt->bindParam(':slug', $slug);
+        $stmt->execute();
+        
+        return (bool) $stmt->fetch();
+    }
+    
+    /**
+     * Inserts a new page into the database.
+     *
+     * @return mixed ID of the inserted row on success, false on failure.
+     */
     public static function createPage($title, $content, $slug, $parent = 0, $position = null) {
         // Check to see if the slug is already in use
-        if (self::getID($slug)) {
+        if (self::slugExists($slug, $parent)) {
             return false;
         }
         
@@ -166,6 +208,9 @@ class Pages
         return self::$db->lastInsertId();
     }
     
+    /**
+     * Update the page with the given ID to match the specified parameters.
+     */
     public static function updatePage($id, $title, $content, $slug, $position, $parent) {
         $query = 'UPDATE pages SET title=:title, content=:content, slug=:slug,
                     position=:position, parent=:parent WHERE id=:id';

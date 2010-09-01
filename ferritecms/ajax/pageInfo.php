@@ -5,6 +5,20 @@
 if (!isset($_GET['type']) || !isset($_GET['parent'])) {
     exit();
 }
+$type = $_GET['type'];
+$parent = $_GET['parent'];
+
+define('CMS_ROOT', dirname(dirname(__file__)) . DIRECTORY_SEPARATOR);
+set_include_path(CMS_ROOT);
+
+require_once 'config.php';
+require_once 'lib/Pages.php';
+
+$path = '';
+if ($parent != 0) {
+    $path = Pages::getPath($parent);
+}
+
 ?>
 
 <div id="<?php echo ($_GET['type'] == 'new') ? 'ferritecms_newform' : 'ferritecms_editpageinfo'; ?>"
@@ -19,7 +33,7 @@ if (!isset($_GET['type']) || !isset($_GET['parent'])) {
         
         <p>
             <label for="slug">Link</label>
-            <!-- URL up to slug here -->
+            <?php echo BASE_URL, $path; ?>
             <input type="text" name="slug" id="ferritcms_pinfoslug" />
         </p>
         
@@ -28,14 +42,14 @@ if (!isset($_GET['type']) || !isset($_GET['parent'])) {
             or <a href="#" id="ferritecms_pinfocancel">Cancel</a>
         </p>
         
-        <?php if ($_GET['type'] == 'edit'): ?>
+        <?php if ($type == 'edit'): ?>
         <p>
             <input type="button" id="ferritecms_pinfodelete" value="Delete" />
         </p>
         <?php endif; ?>
         
         <input type="hidden" name="parent" id="ferritecms_pinfoparent"
-            value="<?php echo $_GET['parent']; ?>" />
+            value="<?php echo $parent; ?>" />
         
     </form>
     

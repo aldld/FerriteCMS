@@ -23,7 +23,12 @@ define('BASE_PATH', '/cms');
  * The secret admin key to verify if a user is an admin, used along
  * with their username/password.
  *
- * @todo: Create an installer to generate a random ADMIN_ID
- * @todo: Verify the ID via Ajax
+ * TODO: Create an installer to generate a random ADMIN_ID
  */
 define('ADMIN_ID', 'jrJ984Jfjaa4389uakl4309ajdf');
+
+/**
+ * Whether FerriteCMS is in development mode or not. Set this
+ * to false when using in a production setting.
+ */
+define('DEV_MODE', true);
