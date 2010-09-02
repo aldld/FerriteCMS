@@ -76,5 +76,16 @@ function newPage() {
 }
 
 function editPageInfo() {
-    
+     $('.ferritecms_nav li').not('.ferritecms_newpage').each(function() {
+          var id = $(this).attr('id').split('-')[1];
+          $(this).append('<a href="#" class="ferritecms_editpage" id="ferritecms_editpage-' + id + '"></a>')
+               .css('width', $(this).width() + $('.ferritecms_editpage').width());
+     });
+     
+     $('.ferritecms_editpage').click(function() {
+          var id = $(this).attr('id').split('-')[1];
+          alert(id);
+          
+          return false;
+     });
 }

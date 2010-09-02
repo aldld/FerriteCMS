@@ -33,6 +33,12 @@ function leaveEditorMode() {
     // Hide new page links
     $('.ferritecms_newpage').hide();
     
+    // Get rid of edit page links
+    $('.ferritecms_nav li').not('.ferritecms_newlink').each(function() {
+        $(this).css('width', $(this).width() - $('.ferritecms_editpage').width());
+        $(this).find('.ferritecms_editpage').remove();
+    });
+    
     // Get rid of all dialogs
     $('.ferritecms_dialog').remove();
     

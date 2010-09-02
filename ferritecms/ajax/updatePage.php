@@ -39,16 +39,6 @@ switch ($update) {
                           );
         break;
     
-    case 'slug':
-        Pages::updatePage($page->id,
-                          $page->title,
-                          $page->content,
-                          $content,
-                          $page->position,
-                          $page->parent
-                          );
-        break;
-    
     default:
         exit();
 }

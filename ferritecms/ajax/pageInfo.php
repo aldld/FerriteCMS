@@ -19,9 +19,14 @@ if ($parent != 0) {
     $path = Pages::getPath($parent);
 }
 
+if (isset($_GET['id']) && $type == 'edit') {
+    $id = $_GET['id'];
+    $page = Pages::getPage($id);
+}
+
 ?>
 
-<div id="<?php echo ($_GET['type'] == 'new') ? 'ferritecms_newform' : 'ferritecms_editpageinfo'; ?>"
+<div id="<?php echo ($type == 'new') ? 'ferritecms_newform' : 'ferritecms_editpageinfo'; ?>"
     class="ferritecms_dialog ferritecms_pageinfo ">
     
     <form action="" method="post">

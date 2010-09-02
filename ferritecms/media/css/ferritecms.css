@@ -26,9 +26,25 @@
     height: 15em;
 }
 
+.ferritecms_nav li {
+    position: relative;
+}
+
 .ferritecms_newpage {
     font-weight: bold;
     display: none;
+}
+
+.ferritecms_editpage, .ferritecms_editpage:link, .ferritecms_editpage:visited,
+.ferritecms_editpage:hover, .ferritecms_editpage:active {
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: url('../images/cog.png') top left no-repeat transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 #ferritecms_pageinfo {
